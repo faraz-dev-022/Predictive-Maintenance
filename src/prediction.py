@@ -31,10 +31,10 @@ class PredictiveMaintenanceModel:
         prior_sensor_values = frame.iloc[-5][sensor_columns].to_numpy(dtype=float)
         trend = np.maximum(latest_sensor_values - prior_sensor_values, 0.0)
 
-        latest_cycle = float(frame.iloc[-1]["normalized_cycle"])
+        cycle_position = float(frame.iloc[-1]["normalized_cycle"])
         mean_deviation = float(np.abs(latest_sensor_values - frame[sensor_columns].mean().to_numpy()).mean())
         trend_score = float(trend.mean())
-        raw_score = mean_deviation * 0.85 + trend_score * 0.65 + latest_cycle * 1.5
+        raw_score = mean_deviation * 0.85 + trend_score * 0.65 + cycle_position * 1.5
 
         probability = clamp_probability(1.0 / (1.0 + math.exp(-(raw_score - 1.0))))
         predicted_rul = max(1, int(round(150 * (1.0 - probability))))

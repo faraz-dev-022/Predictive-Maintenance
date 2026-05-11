@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -11,17 +12,19 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 REPORTS_DIR = BASE_DIR / "reports"
 ALLOWED_REPORT_SUFFIXES = {".html", ".png"}
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    ensure_default_reports(REPORTS_DIR)
+    yield
+
+
 app = FastAPI(
     title="Predictive Maintenance System",
     description="Predicts equipment failure probability and remaining useful life.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 model = PredictiveMaintenanceModel(base_dir=BASE_DIR)
-
-
-@app.on_event("startup")
-def startup() -> None:
-    ensure_default_reports(REPORTS_DIR)
 
 
 @app.get("/health")

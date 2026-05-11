@@ -54,8 +54,7 @@ class PredictiveMaintenanceApiTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tempdir:
             output = save_processed_window(make_cycles(), Path(tempdir) / "engine.parquet")
             self.assertTrue(output.exists())
-
-        self.assertEqual(output.suffix, ".parquet")
+            self.assertEqual(output.suffix, ".parquet")
 
 
 if __name__ == "__main__":
