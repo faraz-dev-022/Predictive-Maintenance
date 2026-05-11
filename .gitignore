@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+reports/*.png
+reports/*.html

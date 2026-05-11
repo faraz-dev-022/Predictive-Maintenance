@@ -1,0 +1,8 @@
+{
+  "model_type": "lstm",
+  "sequence_length": 50,
+  "feature_count": 25,
+  "accuracy": 0.925,
+  "precision": 0.95,
+  "f1_score": 0.84
+}
