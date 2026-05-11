@@ -48,8 +48,9 @@ def list_reports() -> ReportListResponse:
 
 @app.get("/reports/{report_name}")
 def get_report(report_name: str) -> FileResponse:
+    reports_root = REPORTS_DIR.resolve()
     report_path = (REPORTS_DIR / report_name).resolve()
-    if REPORTS_DIR.resolve() not in report_path.parents or report_path.suffix not in ALLOWED_REPORT_SUFFIXES:
+    if not report_path.is_relative_to(reports_root) or report_path.suffix not in ALLOWED_REPORT_SUFFIXES:
         raise HTTPException(status_code=404, detail="Report not found.")
     if not report_path.exists():
         raise HTTPException(status_code=404, detail="Report not found.")

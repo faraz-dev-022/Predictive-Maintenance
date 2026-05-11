@@ -28,7 +28,8 @@ class PredictiveMaintenanceModel:
         frame = build_feature_frame(rows.tolist())
         sensor_columns = [column for column in frame.columns if column.startswith("sensor_") and "_rolling_" not in column]
         latest_sensor_values = frame.iloc[-1][sensor_columns].to_numpy(dtype=float)
-        prior_sensor_values = frame.iloc[-5][sensor_columns].to_numpy(dtype=float)
+        prior_index = max(0, len(frame) - 5)
+        prior_sensor_values = frame.iloc[prior_index][sensor_columns].to_numpy(dtype=float)
         trend = np.maximum(latest_sensor_values - prior_sensor_values, 0.0)
 
         cycle_position = float(frame.iloc[-1]["normalized_cycle"])
