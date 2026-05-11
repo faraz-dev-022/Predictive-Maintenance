@@ -12,6 +12,7 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 REPORTS_DIR = BASE_DIR / "reports"
 ALLOWED_REPORT_SUFFIXES = {".html", ".png"}
 
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     ensure_default_reports(REPORTS_DIR)
